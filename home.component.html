@@ -1,0 +1,83 @@
+<div class="hero-section container-fluid">
+  <div class="row" style="overflow: hidden;">
+    <div class="col" style="padding: 0; position:relative;">
+      <div class="head-bg mental-bg" (click)="getSkillsByActivityId(mentalSkill, true); parentSkillId = mentalSkill.uid">
+        <div class="mental-section" style="z-index: 10;">
+          <div class="hero-img mental-img">
+          </div>
+          <h1>Mental</h1>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="padding: 0; position:relative;">
+      <div class="head-bg physical-bg" (click)="getSkillsByActivityId(phisicalSkill, true); parentSkillId = phisicalSkill.uid">
+        <div class="physical-section">
+          <div class="hero-img physical-img">
+          </div>
+          <h1>Physical</h1>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+<div class="main-details">  
+  <div class="container">
+    <div class="skills-block" *ngFor="let skills of skillsCarousels; let i = index;">
+      <div class="carousel-wrapper" [id]="i">
+              <div class="row" style="margin-left: 0; margin-right: 0">
+                  <div class="col" style="padding: 0;">
+                    <h5 class="label-text">{{ getSkillHeaderText(i, skills && skills.length > 0 ? skills[0].parentSkillId : '') }}</h5>
+                    <div class="main-label">
+                      <div class="label-container">
+                          {{ getSkillHeaderText(i, skills && skills.length > 0 ? skills[0].parentSkillId : '') }}
+                      </div>
+                      <div class="main-header">
+                        <a *ngIf="i != 0" class="button" (click)="openAddDialog()">Add skill</a>
+                      </div>
+                      <!-- <img src="assets/images/label_img3.jpg" alt="">
+                      <img src="assets/images/label_img2.jpg" alt=""> -->
+                    </div>
+                  </div>
+                </div>
+              <ngx-slick class="carousel" style="background: white;" #slickModal="slick-modal" [config]="slideConfig">
+                  <div ngxSlickItem *ngFor="let item of skills" class="slide slide_element">
+                      <popover-content #myPopover [animation]="true" 
+                  placement="left">
+                  <span>{{item.description}}</span><br />
+                  <span>Difficulty: {{item.difficulty}}</span><br />
+                  <span>Experience: {{item.experience}}</span><br />
+                  <span>Reward: {{item.reward}}</span>
+                </popover-content>
+                <div class="center-items" [routerLink]="['skills', item.uid]"
+                  [popover]="myPopover"  [popoverOnHover]="true" popoverPlacement="right" [ngClass]="{ 'optional_skill' : (item.isOptional == true)}">
+                  <img [src]="item.iconUrl" alt="" (error)="item.iconUrl = '../../../../assets/images/logo_1_t.png'">
+                  <h5>{{ item.title }}</h5>
+                </div>
+                <div class="updown_arrow">
+                  <mat-icon style="cursor: pointer;" (click)="getSkillsByActivityId(item, false)">chevron-down</mat-icon>
+                </div>
+                  </div>
+              </ngx-slick>
+          <!-- <p-carousel [value]="skills" [headerText]="skills[0].parentSkillId">
+              <ng-template let-item pTemplate="item">
+                <popover-content #myPopover
+                  placement="left">
+                  <span>{{item.description}}</span><br />
+                  <span>Difficulty: {{item.difficulty}}</span><br />
+                  <span>Experience: {{item.experience}}</span><br />
+                  <span>Reward: {{item.reward}}</span>
+                </popover-content>
+                <div class="center-items" style="cursor: pointer;" [routerLink]="['skills', item.uid]"
+                  [popover]="myPopover"  [popoverOnHover]="true" popoverPlacement="right">
+                  <img [src]="item.iconUrl" alt="" (error)="item.iconUrl = '../../../../assets/images/logo_1_t.png'">
+                  <h5>{{ item.title }}</h5>
+                </div>
+                <div style="text-align: center" *ngIf="item.type == 2">
+                  <mat-icon style="cursor: pointer;" (click)="getSkillsByActivityId(item, false)">expand_more</mat-icon>
+                </div>
+              </ng-template>
+          </p-carousel> -->
+      </div>
+  </div>
+</div>
